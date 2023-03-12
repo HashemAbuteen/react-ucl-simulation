@@ -7,6 +7,7 @@ async function getAllTeamDataById(teamId) {
     "https://v3.football.api-sports.io/players/squads?team=" + teamId,
     {
       method: "GET",
+      mode: "no-cors",
       headers: {
         "x-rapidapi-host": "v3.football.api-sports.io",
         "x-rapidapi-key": football_api_key,
@@ -32,6 +33,7 @@ async function getAllTeamDataById(teamId) {
       "&season=2021&type=league",
     {
       method: "GET",
+      mode: "no-cors",
       headers: {
         "x-rapidapi-host": "v3.football.api-sports.io",
         "x-rapidapi-key": football_api_key,
@@ -60,6 +62,7 @@ async function getAllTeamDataById(teamId) {
 
     {
       method: "GET",
+      mode: "no-cors",
       headers: {
         "x-rapidapi-host": "v3.football.api-sports.io",
         "x-rapidapi-key": football_api_key,
@@ -96,6 +99,7 @@ async function getAllTeamDataById(teamId) {
           "&season=2021",
         {
           method: "GET",
+          mode: "no-cors",
           headers: {
             "x-rapidapi-host": "v3.football.api-sports.io",
             "x-rapidapi-key": football_api_key,
@@ -136,6 +140,7 @@ async function getTeamDataOnly(teamId) {
   await fetch(
     "https://v3.football.api-sports.io/players/squads?team=" + teamId,
     {
+      mode: "no-cors",
       method: "GET",
       headers: {
         "x-rapidapi-host": "v3.football.api-sports.io",
