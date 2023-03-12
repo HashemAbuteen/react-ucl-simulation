@@ -1,0 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    background: url(https://img.uefa.com/imgml/uefacom/ucl/2021/backgroundDark01L.jpg);
+    background-repeat: repeat;
+    /* color: white; */
+}

@@ -1,0 +1,93 @@
+.live-match-lower-part{
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    padding-top: 2rem;
+}
+
+.lineup {
+    padding: 1rem;
+    list-style: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+.lineup li{
+    padding: 0.3rem;
+}
+
+.lineup-player {
+    transition: transform 2s;
+}
+
+.lineup-player-enter {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  
+  .lineup-player-enter-active {
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 2s, transform 2s;
+  }
+  
+  .lineup-player-exit {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  
+  .lineup-player-exit-active {
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 2s, transform 2s;
+  }
+  .lineup-player-appear {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  
+  .lineup-player-appear-active {
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 2s, transform 2s;
+  }
+.game-event {
+    transition: transform 2s;
+}
+
+.game-event-enter {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  
+  .game-event-enter-active {
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 2s, transform 2s;
+  }
+  
+  .game-event-exit {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  
+  .game-event-exit-active {
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 2s, transform 2s;
+  }
+  .game-event-appear {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  
+  .game-event-appear-active {
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 2s, transform 2s;
+  }
+
+  .liveMatchEventsTimeLine{
+    display: flex;
+    flex-direction: column;
+  }
+

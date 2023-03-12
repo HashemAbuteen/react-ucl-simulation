@@ -1,0 +1,64 @@
+.LiveMatch{
+    height: 100vh;
+    width: 100vw;
+    padding-top: 10rem;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    color: white;
+}
+.LiveMatchUpperPart{
+    position: sticky;
+    display: flex;
+    gap: 10%;
+    justify-content: center;
+    width: 100%;
+}
+.teamNameAndPadge {
+    display: flex;
+    padding: 0;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+}
+.teamNameAndPadge img {
+    height: 12rem;
+}
+.liveMatchScoreAndTime{
+    font-size: 5em;
+    text-align: center;
+}
+.liveMatchEventsTimeLine {
+    width: 80vw;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 1.3rem;
+}
+.game-event {
+    transition: transform 0.5s;
+}
+
+.game-event-enter {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  
+  .game-event-enter-active {
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  
+  .game-event-exit {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  
+  .game-event-exit-active {
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 0.5s, transform 0.5s;
+  }

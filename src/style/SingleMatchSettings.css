@@ -1,0 +1,32 @@
+.single-match-settings {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    color: white;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    background-image: url("https://wallpapercave.com/wp/wp10129863.png");
+    background-size: cover;
+    background-position: center center;
+    padding-top: 5rem;
+}
+
+.single-match-settings .single-match-teams{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.single-match-settings .single-match-setting-buttons{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
