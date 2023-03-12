@@ -68,6 +68,7 @@ function SingleMatchSettings({ setPage }) {
   }, []);
 
   if (!homeTeam || !awayTeam) {
+    console.log(homeTeam, awayTeam);
     console.log("One or both teams are still loading...");
     return (
       <div className="single-match-settings">
