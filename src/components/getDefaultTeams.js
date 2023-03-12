@@ -213,7 +213,7 @@ function isTeamInStorageWithoutStats(teamId) {
 }
 
 function getTeamFromStorage(teamId) {
-  if (isTeamInStorage(teamId)) {
+  if (isTeamInStorage(teamId) || isTeamInStorageWithoutStats(teamId)) {
     return JSON.parse(localStorage.getItem(`team-${teamId}`));
   } else {
     return null;
