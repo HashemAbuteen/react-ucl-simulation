@@ -26,7 +26,7 @@ function SingleMatchSettings({ setPage }) {
         } else {
           setError("An error occured while loading the home team data");
         }
-      }, 1500);
+      }, 3000);
     }
     const defaultAway = 541;
     if (isTeamInStorage(defaultAway)) {
@@ -39,7 +39,7 @@ function SingleMatchSettings({ setPage }) {
         } else {
           setError("An error occured while loading the away team data");
         }
-      }, 1500);
+      }, 3000);
     }
   }, []);
 
