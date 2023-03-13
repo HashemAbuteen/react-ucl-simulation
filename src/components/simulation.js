@@ -64,13 +64,40 @@ async function simulateMatch(homeTeam, awayTeam) {
 }
 
 function simulateEvents(homeTeam, awayTeam, homeLineup, awayLineup) {
-  let homeScore = Math.random() * 3;
-  let awayScore = Math.random() * 3;
+  console.log("hometeam", homeTeam);
+  let homeAvg = parseFloat(homeTeam.stats.goals.for.average.total);
+  let awayAvg = parseFloat(awayTeam.stats.goals.for.average.total);
+  const homeCountry = homeTeam.country.name;
+  const awayCountry = awayTeam.country.name;
+
+  const countryCoeffiecent = {
+    Spain: 100,
+    England: 100,
+    France: 80,
+    Italy: 80,
+    Germany: 70,
+  };
+
+  const homeCountryFacor = countryCoeffiecent[homeCountry] || 35;
+  const awayCountryFacor = countryCoeffiecent[awayCountry] || 35;
+  homeAvg = (homeAvg * homeCountryFacor) / awayCountryFacor;
+  awayAvg = (awayAvg * awayCountryFacor) / homeCountryFacor;
+
+  const homeScore = homeAvg + Math.random() * 4 - 2;
+  const awayScore = awayAvg + Math.random() * 4 - 2;
+
   let id = 0;
   const events = [];
   for (let i = 1; i < homeScore; i++) {
+    const random = Math.random();
+    const scorrerPosition =
+      random < 0.6 ? "Attacker" : random < 0.9 ? "Midfielder" : "Defender";
     const minute = Math.floor(Math.random() * 90 + 1);
-    const player = homeLineup[Math.floor(Math.random() * homeLineup.length)];
+    const playersFiltered = homeLineup.filter(
+      (player) => player.position === scorrerPosition
+    );
+    const player =
+      playersFiltered[Math.floor(Math.random() * playersFiltered.length)];
     const newEvent = {};
     newEvent.type = "goal";
     newEvent.min = minute;
@@ -80,8 +107,15 @@ function simulateEvents(homeTeam, awayTeam, homeLineup, awayLineup) {
     events.push(newEvent);
   }
   for (let i = 1; i < awayScore; i++) {
+    const random = Math.random();
+    const scorrerPosition =
+      random < 0.6 ? "Attacker" : random < 0.9 ? "Midfielder" : "Defender";
     const minute = Math.floor(Math.random() * 90 + 1);
-    const player = awayLineup[Math.floor(Math.random() * awayLineup.length)];
+    const playersFiltered = awayLineup.filter(
+      (player) => player.position === scorrerPosition
+    );
+    const player =
+      playersFiltered[Math.floor(Math.random() * playersFiltered.length)];
     const newEvent = {};
     newEvent.type = "goal";
     newEvent.min = minute;
@@ -91,7 +125,47 @@ function simulateEvents(homeTeam, awayTeam, homeLineup, awayLineup) {
     events.push(newEvent);
   }
 
+  //cards
+
+  const homeYellow =
+    homeScore > awayScore
+      ? Math.ceil(Math.random() * 3)
+      : Math.ceil(Math.random() * 5);
+  const awayYellow =
+    awayScore > homeScore
+      ? Math.ceil(Math.random() * 3)
+      : Math.ceil(Math.random() * 5);
+
+  const homeCarders = getRandomSubarray(homeLineup, homeYellow);
+  const awayCarders = getRandomSubarray(awayLineup, awayYellow);
+
+  for (const player of homeCarders) {
+    const newEvent = {};
+    newEvent.type = "yellow";
+    const minute = Math.floor(Math.random() * 90 + 1);
+    newEvent.min = minute;
+    newEvent.player = player;
+    newEvent.team = "home";
+    newEvent.id = id++;
+    events.push(newEvent);
+  }
+  for (const player of awayCarders) {
+    const newEvent = {};
+    newEvent.type = "yellow";
+    const minute = Math.floor(Math.random() * 90 + 1);
+    newEvent.min = minute;
+    newEvent.player = player;
+    newEvent.team = "away";
+    newEvent.id = id++;
+    events.push(newEvent);
+  }
+
   return events;
+}
+
+function getRandomSubarray(arr, size) {
+  const shuffled = arr.slice().sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, size);
 }
 
 function calculateWeights(score) {

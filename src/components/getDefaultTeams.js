@@ -83,14 +83,14 @@ async function getAllTeamDataById(teamId) {
 
   console.log("team info is ready", team);
   // now oterating over players
-  team.players.forEach((player, index) => {
+  for (const player of team.players) {
     const storedPlayer = getPlayerFromStorage(player.id);
     if (storedPlayer && storedPlayer.stats) {
       console.log(`player ${player.id} in ${team.name} has already got stats`);
       player.stats = storedPlayer.stats;
       storeTeamToLocalStorage(team);
     } else {
-      fetch(
+      await fetch(
         "https://v3.football.api-sports.io/players?id=" +
           player.id +
           "&season=2021",
@@ -126,7 +126,7 @@ async function getAllTeamDataById(teamId) {
           console.log(err);
         });
     }
-  });
+  }
   storeTeamToLocalStorage(team);
 }
 

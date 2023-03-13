@@ -60,7 +60,13 @@ function App() {
     console.log(page);
     const homeTeamId = parseInt(page.split("-")[1]);
     const awayTeamId = parseInt(page.split("-")[2]);
-    return <Match homeTeamId={homeTeamId} awayTeamId={awayTeamId} />;
+    return (
+      <Match
+        homeTeamId={homeTeamId}
+        awayTeamId={awayTeamId}
+        setPage={setPage}
+      />
+    );
   }
   return <Landing />;
 

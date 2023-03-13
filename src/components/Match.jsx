@@ -9,8 +9,9 @@ import {
 import "../style/Match.css";
 import { simulateEvents } from "./simulation";
 import LiveMatchEvent from "./LiveMatchEvent";
+import singleWhistle from "../sounds/single.mp3";
 
-function Match({ homeTeamId, awayTeamId, tournament, setTournament }) {
+function Match({ homeTeamId, awayTeamId, tournament, setTournament, setPage }) {
   const [homeTeam, setHomeTeam] = useState();
   const [awayTeam, setAwayTeam] = useState();
   const [error, setError] = useState();
@@ -18,36 +19,36 @@ function Match({ homeTeamId, awayTeamId, tournament, setTournament }) {
   const [lineUp, setLinup] = useState({});
   const [events, setEvents] = useState();
   const updateTimeInterval = useRef();
-  const [currentTime, setCurrentTime] = useState({ clock: 0, rest: 0 });
+  const [currentTime, setCurrentTime] = useState({ clock: -5, rest: 0 });
   const [eventsDone, setEventsDone] = useState([]);
   const [score, setScore] = useState({ home: 0, away: 0 });
+
+  const singleWhislteRed = useRef();
 
   useEffect(() => {
     if (isTeamInStorage(homeTeamId)) {
       setHomeTeam(getTeamFromStorage(homeTeamId));
       console.log(getTeamFromStorage(homeTeamId));
     } else {
-      getAllTeamDataById(homeTeamId);
-      setTimeout(() => {
+      getAllTeamDataById(homeTeamId).then(() => {
         if (isTeamInStorage(homeTeamId)) {
           setHomeTeam(getTeamFromStorage(homeTeamId));
         } else {
           setError("An error occured while loading the home team data");
         }
-      }, 2000);
+      });
     }
     if (isTeamInStorage(awayTeamId)) {
       setAwayTeam(getTeamFromStorage(awayTeamId));
       console.log(getTeamFromStorage(awayTeamId));
     } else {
-      getAllTeamDataById(awayTeamId);
-      setTimeout(() => {
+      getAllTeamDataById(awayTeamId).then(() => {
         if (isTeamInStorage(awayTeamId)) {
           setAwayTeam(getTeamFromStorage(awayTeamId));
         } else {
           setError("An error occured while loading the away team data");
         }
-      }, 2000);
+      });
     }
   }, []);
 
@@ -88,7 +89,7 @@ function Match({ homeTeamId, awayTeamId, tournament, setTournament }) {
             return currentTime;
           }
         });
-      }, 200);
+      }, 600);
       console.log(events);
       // console.log("home line up: ", match.homeTeam.lineup);
       // console.log("away line up: ", match.awayTeam.lineup);
@@ -112,13 +113,37 @@ function Match({ homeTeamId, awayTeamId, tournament, setTournament }) {
             setScore((score) => ({ ...score, away: score.away + 1 }));
           }
         }
+        if (event.type === "yellow") {
+          playSingleWhistle();
+        }
       }
     }
+    if (time === 0) {
+      playSingleWhistle();
+    }
   }
+  function playSingleWhistle() {
+    const audio = singleWhislteRed.current;
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play();
+  }
+  const sounds = (
+    <>
+      <audio ref={singleWhislteRed} src={singleWhistle} />
+    </>
+  );
+
+  const backButton = (
+    <button className="back-button" onClick={() => setPage("set-single-match")}>
+      New Match
+    </button>
+  );
 
   if (error) {
     return (
       <div className="match-container">
+        {backButton}
         <div className="error-messsage">{error}</div>
       </div>
     );
@@ -126,6 +151,7 @@ function Match({ homeTeamId, awayTeamId, tournament, setTournament }) {
   if (!homeTeam || !awayTeam || !simulation) {
     return (
       <div className="match-container">
+        {backButton}
         <div className="loading-div">Loading</div>
       </div>
     );
@@ -133,6 +159,8 @@ function Match({ homeTeamId, awayTeamId, tournament, setTournament }) {
 
   return (
     <div className="LiveMatch">
+      {backButton}
+      {sounds}
       <div className="LiveMatchUpperPart">
         <div className="teamNameAndPadge home">
           <img src={homeTeam.logo} alt={homeTeam.name + " logo"} />
@@ -142,7 +170,9 @@ function Match({ homeTeamId, awayTeamId, tournament, setTournament }) {
           <div className="LiveMatchScore">
             {score.home + " : " + score.away}
           </div>
-          <div className="LiveMatchTime">{currentTime.clock} '</div>
+          <div className="LiveMatchTime">
+            {currentTime.clock > 0 ? currentTime.clock : 0} '
+          </div>
         </div>
         <div className="teamNameAndPadge away">
           <img src={awayTeam.logo} alt={awayTeam.name + " logo"} />
